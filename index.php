@@ -2,9 +2,9 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Mousav1\Validify\Rules\EvenRule;
 use Mousav1\Validify\Rules\Rule;
 use Mousav1\Validify\Validator;
+
 
 Validator::extend('startsWith', function ($prefix) {
     return new class($prefix) extends Rule {
