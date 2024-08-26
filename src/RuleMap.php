@@ -2,6 +2,7 @@
 
 namespace Mousav1\Validify;
 
+use Mousav1\Validify\Rules\AlphaRule;
 use Mousav1\Validify\Rules\BetweenRule;
 use Mousav1\Validify\Rules\ConfirmedRule;
 use Mousav1\Validify\Rules\EmailRule;
@@ -30,6 +31,7 @@ class RuleMap {
         'in' => InRule::class,
         'between' => BetweenRule::class,
         'regex' => RegexRule::class,
+        'alpha' => AlphaRule::class,
     ];
 
     public static function resolve(string $rule, array $options): Rule {
