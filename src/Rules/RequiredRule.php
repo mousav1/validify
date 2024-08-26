@@ -9,6 +9,11 @@ class RequiredRule extends Rule
         return !empty($value);
     }
 
+    public function name(): string
+    {
+        return 'required';
+    }
+
     public function message($field): string
     {
         return "{$field} is required";

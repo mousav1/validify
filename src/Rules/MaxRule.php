@@ -11,6 +11,11 @@ class MaxRule extends Rule
         $this->max = $max;
     }
 
+    public function name(): string
+    {
+        return 'max';
+    }
+
     public function passes(string $field, $value, array $data): bool
     {
         return is_string($value) && strlen($value) <= $this->max;

@@ -11,6 +11,11 @@ class InRule extends Rule
         $this->allowedValues = $allowedValues;
     }
 
+    public function name(): string
+    {
+        return 'in';
+    }
+    
     public function passes($field, $value, $data): bool
     {
         return in_array($value, $this->allowedValues);

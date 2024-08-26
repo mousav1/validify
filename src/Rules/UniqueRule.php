@@ -13,6 +13,11 @@ class UniqueRule extends Rule
         $this->column = $column;
     }
 
+    public function name(): string
+    {
+        return 'unique';
+    }
+
     public function passes($field, $value, $data): bool
     {
         // فرض کنید یک متد استاتیک برای جستجو در دیتابیس وجود دارد

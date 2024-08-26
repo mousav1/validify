@@ -9,6 +9,11 @@ class OptionalRule extends Rule
         return true;
     }
 
+    public function name(): string
+    {
+        return 'optional';
+    }
+
     public function message($field): string
     {
         return '';

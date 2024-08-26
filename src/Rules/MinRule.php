@@ -11,6 +11,11 @@ class MinRule extends Rule
         $this->min = $min;
     }
 
+    public function name(): string
+    {
+        return 'min';
+    }
+
     public function passes($field, $value, $data): bool
     {
         return strlen($value) >= $this->min;

@@ -13,6 +13,11 @@ class RequiredWithRule extends Rule
         $this->fields = $fields;
     }
 
+    public function name(): string
+    {
+        return 'required_with';
+    }
+
     public function passes($field, $value, $data): bool
     {
         foreach($this->fields as $field) {

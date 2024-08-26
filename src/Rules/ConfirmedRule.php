@@ -10,6 +10,11 @@ class ConfirmedRule extends Rule
         return isset($data[$confirmationField]) && $value === $data[$confirmationField];
     }
 
+    public function name(): string
+    {
+        return 'confirmed';
+    }
+
     public function message($field): string
     {
         return "{$field} confirmation does not match.";

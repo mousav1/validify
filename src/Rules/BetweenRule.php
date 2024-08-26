@@ -13,6 +13,11 @@ class BetweenRule extends Rule
         $this->max = $max;
     }
 
+    public function name(): string
+    {
+        return 'between';
+    }
+
     public function passes($field, $value, $data): bool
     {
         return $value >= $this->min && $value <= $this->max;

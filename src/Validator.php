@@ -39,6 +39,8 @@ class Validator
      */
     protected array $preValidationCallbacks = [];
 
+    protected array $customMessages = [];
+
     /**
      * Constructor method.
      *
@@ -52,6 +54,12 @@ class Validator
         // Initializes an ValidationErrorCollection instance to store validation errors
         $this->validationErrorCollection = new ValidationErrorCollection();
     }
+
+    public function setCustomMessages(array $messages): void
+    {
+        $this->customMessages = $messages;
+    }
+
 
     /**
      * Adds a custom validation rule.
@@ -248,6 +256,9 @@ class Validator
     protected function validateUsingRuleObject(string $field, mixed $value, Rule $rule): void
     {
         if (!$rule->passes($field, $value, $this->inputData)) {
+            $message = $this->customMessages[$field][$rule->name()] ?? $rule->message(self::alias($field));
+            $this->validationErrorCollection->add($field, $message);
+            
             $this->validationErrorCollection->add($field, $rule->message(self::alias($field)));
         }
     }

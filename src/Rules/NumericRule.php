@@ -9,6 +9,11 @@ class NumericRule extends Rule
         return is_numeric($value);
     }
 
+    public function name(): string
+    {
+        return 'numeric';
+    }
+
     public function message($field): string
     {
         return "{$field} must be a numeric value.";
