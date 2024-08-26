@@ -10,6 +10,7 @@ use Mousav1\Validify\Rules\MaxRule;
 use Mousav1\Validify\Rules\MinRule;
 use Mousav1\Validify\Rules\NumericRule;
 use Mousav1\Validify\Rules\OptionalRule;
+use Mousav1\Validify\Rules\RegexRule;
 use Mousav1\Validify\Rules\RequiredRule;
 use Mousav1\Validify\Rules\RequiredWithRule;
 use Mousav1\Validify\Rules\Rule;
@@ -28,6 +29,7 @@ class RuleMap {
         'unique' => UniqueRule::class,
         'in' => InRule::class,
         'between' => BetweenRule::class,
+        'regex' => RegexRule::class,
     ];
 
     public static function resolve(string $rule, array $options): Rule {
