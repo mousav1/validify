@@ -1,0 +1,39 @@
+{
+    "name": "mousav1/validify",
+    "description": "Validify is a powerful PHP validation library that provides flexible and customizable validation rules, error handling, and pre-validation callbacks.",
+    "keywords": [
+        "validation",
+        "php",
+        "rules",
+        "custom-validation",
+        "error-handling",
+        "pre-validation",
+        "data-validation"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mohammad",
+            "email": "imousavi41@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mousav1\\Validify\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mousav1\\Validify\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    }
+}
