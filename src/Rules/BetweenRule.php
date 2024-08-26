@@ -20,7 +20,7 @@ class BetweenRule extends Rule
 
     public function passes($field, $value, $data): bool
     {
-        return $value >= $this->min && $value <= $this->max;
+        return strlen($value) >= $this->min && strlen($value) <= $this->max;
     }
 
     public function message($field): string

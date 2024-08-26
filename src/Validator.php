@@ -61,6 +61,11 @@ class Validator
     }
 
 
+    public function field(string $field): Field
+    {
+        return new Field($this, $field);
+    }
+
     /**
      * Adds a custom validation rule.
      *
