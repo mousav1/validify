@@ -1,4 +1,4 @@
-# Validify Validator Package
+# Validify
 
 ## Introduction
 
