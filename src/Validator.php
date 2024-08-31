@@ -58,13 +58,17 @@ class Validator
      *
      * @param array $data The input data to be validated.
      */
-    public function __construct(array $data)
+    public function __construct(array $data, array $rules = [], array $messages = [])
     {
         // Extracts wildcard data from the input and stores it
         $this->inputData = $this->extractWildcardData($data);
 
         // Initializes an ValidationErrorCollection instance to store validation errors
         $this->validationErrorCollection = new ValidationErrorCollection();
+
+        $this->validationRules = $rules;
+
+        $this->customMessages = $messages;
 
         // Initialize default rules
         $this->initializeDefaultRules();

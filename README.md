@@ -32,9 +32,7 @@ $data = [
     'age' => 25,
 ];
 
-$validator = new Validator($data);
-
-$validator->setRules([
+$validator = new Validator($data,[
     'username' => ['required', 'alpha'],
     'email' => ['required', 'email'],
     'age' => ['required', 'numeric', 'min:18'],
@@ -86,7 +84,9 @@ Validator::extend('even', function () {
         public function passes($field, $value) {
             return $value % 2 === 0;
         }
-
+        public function name(): string{
+            return "even"
+        }
         public function message($field) {
             return "{$field} must be an even number.";
         }
@@ -95,8 +95,7 @@ Validator::extend('even', function () {
 
 $data = ['number' => 3];
 
-$validator = new Validator($data);
-$validator->setRules([
+$validator = new Validator($data,[
     'number' => ['even']
 ]);
 
@@ -119,9 +118,7 @@ $data = [
     'email' => 'invalid-email',
 ];
 
-$validator = new Validator($data);
-
-$validator->setRules([
+$validator = new Validator($data,[
     'username' => ['required'],
     'email' => ['required', 'email'],
 ]);
@@ -174,7 +171,7 @@ $validator->beforeValidate(function (&$data) {
 - **max**
 - **numeric**
 - **confirmed**
-- **unique**
+- **url**
 - **in**
 - **between**
 - **regex**
