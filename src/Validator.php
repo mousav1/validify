@@ -3,7 +3,19 @@
 namespace Mousav1\Validify;
 
 use Mousav1\Validify\Errors\ValidationErrorCollection;
+use Mousav1\Validify\Rules\AlphaRule;
+use Mousav1\Validify\Rules\BetweenRule;
+use Mousav1\Validify\Rules\ConfirmedRule;
+use Mousav1\Validify\Rules\EmailRule;
+use Mousav1\Validify\Rules\InRule;
+use Mousav1\Validify\Rules\IsUrlRule;
+use Mousav1\Validify\Rules\MaxRule;
+use Mousav1\Validify\Rules\MinRule;
+use Mousav1\Validify\Rules\NumericRule;
 use Mousav1\Validify\Rules\OptionalRule;
+use Mousav1\Validify\Rules\RegexRule;
+use Mousav1\Validify\Rules\RequiredRule;
+use Mousav1\Validify\Rules\RequiredWithRule;
 use Mousav1\Validify\Rules\Rule;
 
 class Validator
@@ -53,6 +65,27 @@ class Validator
 
         // Initializes an ValidationErrorCollection instance to store validation errors
         $this->validationErrorCollection = new ValidationErrorCollection();
+
+        // Initialize default rules
+        $this->initializeDefaultRules();
+    }
+
+    protected function initializeDefaultRules(): void
+    {
+        // Register default rules
+        RuleMap::register('required', RequiredRule::class);
+        RuleMap::register('email', EmailRule::class);
+        RuleMap::register('between', BetweenRule::class);
+        RuleMap::register('confirmed', ConfirmedRule::class);
+        RuleMap::register('max', MaxRule::class);
+        RuleMap::register('required_with', RequiredWithRule::class);
+        RuleMap::register('url', IsUrlRule::class);
+        RuleMap::register('alpha', AlphaRule::class);
+        RuleMap::register('regex', RegexRule::class);
+        RuleMap::register('in', InRule::class);
+        RuleMap::register('numeric', NumericRule::class);
+        RuleMap::register('min', MinRule::class);
+        RuleMap::register('optional', OptionalRule::class);
     }
 
     public function setCustomMessages(array $messages): void

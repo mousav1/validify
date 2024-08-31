@@ -2,37 +2,19 @@
 
 namespace Mousav1\Validify;
 
-use Mousav1\Validify\Rules\AlphaRule;
-use Mousav1\Validify\Rules\BetweenRule;
-use Mousav1\Validify\Rules\ConfirmedRule;
-use Mousav1\Validify\Rules\EmailRule;
-use Mousav1\Validify\Rules\InRule;
-use Mousav1\Validify\Rules\IsUrlRule;
-use Mousav1\Validify\Rules\MaxRule;
-use Mousav1\Validify\Rules\MinRule;
-use Mousav1\Validify\Rules\NumericRule;
-use Mousav1\Validify\Rules\OptionalRule;
-use Mousav1\Validify\Rules\RegexRule;
-use Mousav1\Validify\Rules\RequiredRule;
-use Mousav1\Validify\Rules\RequiredWithRule;
 use Mousav1\Validify\Rules\Rule;
 
 class RuleMap {
-    protected static $map = [
-        'required' => RequiredRule::class,
-        'max' => MaxRule::class,
-        'required_with' => RequiredWithRule::class,
-        'optional' => OptionalRule::class,
-        'email' => EmailRule::class,
-        'min' => MinRule::class,
-        'numeric' => NumericRule::class,
-        'confirmed' => ConfirmedRule::class,
-        'in' => InRule::class,
-        'between' => BetweenRule::class,
-        'regex' => RegexRule::class,
-        'alpha' => AlphaRule::class,
-        'url' => IsUrlRule::class,
-    ];
+    protected static array $map = [];
+
+    public static function register(string $name, string $ruleClass): void
+    {
+        if (!is_subclass_of($ruleClass, Rule::class)) {
+            throw new \InvalidArgumentException("{$ruleClass} must implement RuleInterface.");
+        }
+
+        self::$map[$name] = $ruleClass;
+    }
 
     public static function resolve(string $rule, array $options): Rule {
 
