@@ -7,6 +7,7 @@ use Mousav1\Validify\Rules\BetweenRule;
 use Mousav1\Validify\Rules\ConfirmedRule;
 use Mousav1\Validify\Rules\EmailRule;
 use Mousav1\Validify\Rules\InRule;
+use Mousav1\Validify\Rules\IsUrlRule;
 use Mousav1\Validify\Rules\MaxRule;
 use Mousav1\Validify\Rules\MinRule;
 use Mousav1\Validify\Rules\NumericRule;
@@ -15,7 +16,6 @@ use Mousav1\Validify\Rules\RegexRule;
 use Mousav1\Validify\Rules\RequiredRule;
 use Mousav1\Validify\Rules\RequiredWithRule;
 use Mousav1\Validify\Rules\Rule;
-use Mousav1\Validify\Rules\UniqueRule;
 
 class RuleMap {
     protected static $map = [
@@ -27,11 +27,11 @@ class RuleMap {
         'min' => MinRule::class,
         'numeric' => NumericRule::class,
         'confirmed' => ConfirmedRule::class,
-        'unique' => UniqueRule::class,
         'in' => InRule::class,
         'between' => BetweenRule::class,
         'regex' => RegexRule::class,
         'alpha' => AlphaRule::class,
+        'url' => IsUrlRule::class,
     ];
 
     public static function resolve(string $rule, array $options): Rule {

@@ -31,7 +31,10 @@ class RuleMapTest extends TestCase
                 {
                     return $value === 'valid';
                 }
-
+                public function name(): string
+                {
+                    return 'custom_rule';
+                }
                 public function message($field): string
                 {
                     return "The {$field} must be 'valid'.";

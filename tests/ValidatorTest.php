@@ -52,7 +52,10 @@ class ValidatorTest extends TestCase
                 {
                     return $value === 'test_user';
                 }
-
+                public function name(): string
+                {
+                    return 'custom_rule';
+                }
                 public function message($field): string
                 {
                     return "The {$field} must be 'test_user'.";
