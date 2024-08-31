@@ -38,10 +38,8 @@ $validator = new Validator($data,[
     'age' => ['required', 'numeric', 'min:18'],
 ]);
 
-if ($validator->validate()) {
-    echo "Validation passed!";
-} else {
-    print_r($validator->getErrors());
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
 }
 
 ```
@@ -64,10 +62,8 @@ $validator->field('name')
     ->startsWith('prefix')
     ->applyRules();
 
-if ($validator->validate()) {
-    echo "Validation passed!";
-} else {
-    print_r($validator->getErrors());
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
 }
 
 
@@ -99,10 +95,8 @@ $validator = new Validator($data,[
     'number' => ['even']
 ]);
 
-if ($validator->validate()) {
-    echo "Validation passed!";
-} else {
-    print_r($validator->getErrors());
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
 }
 
 ```
@@ -128,12 +122,9 @@ $validator->setCustomMessages([
     'email.email' => 'Please provide a valid email address.',
 ]);
 
-if ($validator->validate()) {
-    echo "Validation passed!";
-} else {
-    print_r($validator->getErrors());
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
 }
-
 
 ```
 
