@@ -100,6 +100,32 @@ if (!$validator->validate()) {
 }
 
 ```
+
+
+## Conditional Validation
+#### Conditional validation allows you to apply validation rules to certain fields only when specific conditions are met. This feature is useful when you want to validate fields based on the values of other fields or dynamic conditions.
+
+```php
+
+$data = [
+    'age' => 20,
+    'license' => ''
+];
+
+$validator = new Validator($data);
+
+// Adding a conditional rule
+$validator->addConditionalRule('license', ['required'], function ($data) {
+    return $data['age'] > 18;
+});
+
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
+}
+
+```
+
+
 ## Custom Error Messages
 #### You can define custom error messages for specific fields and rules:
 

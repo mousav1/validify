@@ -29,6 +29,11 @@ class Validator
 {
 
     /**
+     * @var ConditionalRule[] List of conditional rules and their conditions
+     */
+    protected array $conditionalRules = [];
+
+    /**
      * @var array $inputData The data to be validated.
      */
     protected array $inputData;
@@ -79,6 +84,18 @@ class Validator
 
         // Initialize default rules
         $this->initializeDefaultRules();
+    }
+
+        /**
+     * Add a conditional rule.
+     *
+     * @param string $field The field to apply the rules to
+     * @param array $rules The rules to apply if the condition is met
+     * @param callable $condition The condition to determine whether the rules should be applied
+     */
+    public function addConditionalRule(string $field, array $rules, callable $condition): void
+    {
+        $this->conditionalRules[] = new ConditionalRule($field, $rules, $condition);
     }
 
     protected function initializeDefaultRules(): void
@@ -203,6 +220,19 @@ class Validator
             call_user_func_array($callback, [&$this->inputData]);
         }
 
+        // Apply conditional rules
+        foreach ($this->conditionalRules as $conditionalRule) {
+            $conditionalRules = $conditionalRule->apply($this->inputData);
+            if ($conditionalRules) {
+                foreach ($conditionalRules as $field => $rules) {
+                    $this->validationRules[$field] = array_merge(
+                        $this->validationRules[$field] ?? [],
+                        $rules
+                    );
+                }
+            }
+        }
+        
         // Validate each field against its associated rules
         foreach ($this->validationRules as $field => $rules) {
             $resolvedRules = $this->resolveRules($rules);
