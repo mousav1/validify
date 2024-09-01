@@ -1,8 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Mousav1\Validify\ConditionalRule;
-use Mousav1\Validify\Rules\RequiredRule;
 use Mousav1\Validify\Validator;
 
 class ConditionalRuleTest extends TestCase

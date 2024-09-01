@@ -3,11 +3,14 @@
 namespace Mousav1\Validify;
 
 use Mousav1\Validify\Errors\ValidationErrorCollection;
+use Mousav1\Validify\Rules\AfterRule;
 use Mousav1\Validify\Rules\AlphaRule;
 use Mousav1\Validify\Rules\ArrayRule;
+use Mousav1\Validify\Rules\BeforeRule;
 use Mousav1\Validify\Rules\BetweenRule;
 use Mousav1\Validify\Rules\BooleanRule;
 use Mousav1\Validify\Rules\ConfirmedRule;
+use Mousav1\Validify\Rules\DateFormatRule;
 use Mousav1\Validify\Rules\EmailRule;
 use Mousav1\Validify\Rules\InRule;
 use Mousav1\Validify\Rules\IntegerRule;
@@ -122,6 +125,9 @@ class Validator
         RuleProvider::register('lowercase', LowercaseRule::class);
         RuleProvider::register('json', JsonRule::class);
         RuleProvider::register('alpha', AlphaRule::class);
+        RuleProvider::register('date_format', DateFormatRule::class);
+        RuleProvider::register('after', AfterRule::class);
+        RuleProvider::register('before', BeforeRule::class);
     }
 
     public function setCustomMessages(array $messages): void
@@ -235,6 +241,9 @@ class Validator
         
         // Validate each field against its associated rules
         foreach ($this->validationRules as $field => $rules) {
+            if (!is_array($rules)) {
+                $rules = explode('|', $rules);
+            }
             $resolvedRules = $this->resolveRules($rules);
             foreach ($resolvedRules as $rule) {
                 $this->validateRule($field, $rule, $this->resolveRulesContainsOptional($resolvedRules));

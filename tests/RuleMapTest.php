@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Mousav1\Validify\RuleMap;
+use Mousav1\Validify\RuleProvider;
 use Mousav1\Validify\Rules\RequiredRule;
 use Mousav1\Validify\Rules\EmailRule;
 use Mousav1\Validify\Validator;
@@ -13,10 +13,10 @@ class RuleMapTest extends TestCase
      */
     public function testResolveStandardRules()
     {
-        $rule = RuleMap::resolve('required', []);
+        $rule = RuleProvider::resolve('required', []);
         $this->assertInstanceOf(RequiredRule::class, $rule);
 
-        $rule = RuleMap::resolve('email', []);
+        $rule = RuleProvider::resolve('email', []);
         $this->assertInstanceOf(EmailRule::class, $rule);
     }
 
@@ -42,7 +42,7 @@ class RuleMapTest extends TestCase
             };
         });
 
-        $rule = RuleMap::resolve('custom_rule', []);
+        $rule = RuleProvider::resolve('custom_rule', []);
         $this->assertInstanceOf(\Mousav1\Validify\Rules\Rule::class, $rule);
     }
 
@@ -52,6 +52,6 @@ class RuleMapTest extends TestCase
     public function testResolveNonExistentRule()
     {
         $this->expectException(\InvalidArgumentException::class);
-        RuleMap::resolve('non_existent_rule', []);
+        RuleProvider::resolve('non_existent_rule', []);
     }
 }

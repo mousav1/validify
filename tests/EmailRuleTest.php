@@ -1,7 +1,5 @@
 <?php
 
-namespace Mousav1\Validify\Tests\Rules;
-
 use Mousav1\Validify\Rules\EmailRule;
 use PHPUnit\Framework\TestCase;
 
