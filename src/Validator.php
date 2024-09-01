@@ -4,19 +4,26 @@ namespace Mousav1\Validify;
 
 use Mousav1\Validify\Errors\ValidationErrorCollection;
 use Mousav1\Validify\Rules\AlphaRule;
+use Mousav1\Validify\Rules\ArrayRule;
 use Mousav1\Validify\Rules\BetweenRule;
+use Mousav1\Validify\Rules\BooleanRule;
 use Mousav1\Validify\Rules\ConfirmedRule;
 use Mousav1\Validify\Rules\EmailRule;
 use Mousav1\Validify\Rules\InRule;
+use Mousav1\Validify\Rules\IntegerRule;
 use Mousav1\Validify\Rules\IsUrlRule;
+use Mousav1\Validify\Rules\JsonRule;
+use Mousav1\Validify\Rules\LowercaseRule;
 use Mousav1\Validify\Rules\MaxRule;
 use Mousav1\Validify\Rules\MinRule;
+use Mousav1\Validify\Rules\NotInRule;
 use Mousav1\Validify\Rules\NumericRule;
 use Mousav1\Validify\Rules\OptionalRule;
 use Mousav1\Validify\Rules\RegexRule;
 use Mousav1\Validify\Rules\RequiredRule;
 use Mousav1\Validify\Rules\RequiredWithRule;
 use Mousav1\Validify\Rules\Rule;
+use Mousav1\Validify\Rules\UppercaseRule;
 
 class Validator
 {
@@ -77,19 +84,27 @@ class Validator
     protected function initializeDefaultRules(): void
     {
         // Register default rules
-        RuleMap::register('required', RequiredRule::class);
-        RuleMap::register('email', EmailRule::class);
-        RuleMap::register('between', BetweenRule::class);
-        RuleMap::register('confirmed', ConfirmedRule::class);
-        RuleMap::register('max', MaxRule::class);
-        RuleMap::register('required_with', RequiredWithRule::class);
-        RuleMap::register('url', IsUrlRule::class);
-        RuleMap::register('alpha', AlphaRule::class);
-        RuleMap::register('regex', RegexRule::class);
-        RuleMap::register('in', InRule::class);
-        RuleMap::register('numeric', NumericRule::class);
-        RuleMap::register('min', MinRule::class);
-        RuleMap::register('optional', OptionalRule::class);
+        RuleProvider::register('required', RequiredRule::class);
+        RuleProvider::register('email', EmailRule::class);
+        RuleProvider::register('between', BetweenRule::class);
+        RuleProvider::register('confirmed', ConfirmedRule::class);
+        RuleProvider::register('max', MaxRule::class);
+        RuleProvider::register('required_with', RequiredWithRule::class);
+        RuleProvider::register('url', IsUrlRule::class);
+        RuleProvider::register('alpha', AlphaRule::class);
+        RuleProvider::register('regex', RegexRule::class);
+        RuleProvider::register('in', InRule::class);
+        RuleProvider::register('numeric', NumericRule::class);
+        RuleProvider::register('min', MinRule::class);
+        RuleProvider::register('optional', OptionalRule::class);
+        RuleProvider::register('array', ArrayRule::class);
+        RuleProvider::register('integer', IntegerRule::class);
+        RuleProvider::register('boolean', BooleanRule::class);
+        RuleProvider::register('not_in', NotInRule::class);
+        RuleProvider::register('uppercase', UppercaseRule::class);
+        RuleProvider::register('lowercase', LowercaseRule::class);
+        RuleProvider::register('json', JsonRule::class);
+        RuleProvider::register('alpha', AlphaRule::class);
     }
 
     public function setCustomMessages(array $messages): void
@@ -269,7 +284,7 @@ class Validator
      */
     protected function newRuleFromMap(string $rule, array $options): Rule
     {
-        return RuleMap::resolve($rule, $options);
+        return RuleProvider::resolve($rule, $options);
     }
 
     /**

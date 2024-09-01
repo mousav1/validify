@@ -25,7 +25,7 @@ class Field
 
     protected function createRule(string $method, array $parameters): Rule
     {
-        $ruleClass = RuleMap::resolve($method, $parameters);
+        $ruleClass = RuleProvider::resolve($method, $parameters);
 
         // Check if it's a custom rule
         if (isset($customRules[$method])) {

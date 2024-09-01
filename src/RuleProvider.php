@@ -4,7 +4,7 @@ namespace Mousav1\Validify;
 
 use Mousav1\Validify\Rules\Rule;
 
-class RuleMap {
+class RuleProvider {
     protected static array $map = [];
 
     public static function register(string $name, string $ruleClass): void
