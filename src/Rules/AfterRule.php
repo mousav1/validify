@@ -27,7 +27,13 @@ class AfterRule extends Rule
     public function passes($field, $value, $data): bool
     {
         $dateValue = new DateTime($value);
-        $comparisonDate = new DateTime($this->date);
+        // Check if the comparison is with a date or a field
+        if (isset($data[$this->date])) {
+            $comparisonDate = new DateTime($data[$this->date]);
+        } else {
+            // If it's not a field, treat it as a direct date comparison
+            $comparisonDate = new DateTime($this->date);
+        }
 
         return $dateValue > $comparisonDate;
     }

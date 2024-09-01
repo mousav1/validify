@@ -10,6 +10,9 @@
 - **Customizable**: Allows the addition of custom validation rules.
 - **Wildcard Support**: Supports validation of nested data structures using dot notation.
 - **Pre-Validation Callbacks**: Supports execution of custom logic before validation.
+- **Conditional Validation**: Apply validation rules based on dynamic conditions.
+- **Date and Time Validation**: Validate date and time fields with built-in rules.
+- **Flexible Rule Definitions**: Support for both array and string formats for defining rules.
 
 ## Installation
 
@@ -125,6 +128,66 @@ if (!$validator->validate()) {
 
 ```
 
+
+## Date and Time Validation
+#### The Validify package includes rules for validating date and time fields. You can use these rules to ensure that your date and time inputs meet specific criteria.
+
+##### Date Format
+```php
+
+$data = [
+    'birthdate' => '2024-09-01',
+];
+
+$validator = new Validator($data, [
+    'birthdate' => ['required', 'date_format:Y-m-d'],
+]);
+
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
+}
+
+```
+##### After Rule
+
+```php
+$data = [
+    'start_date' => '2024-01-01',
+    'end_date' => '2024-02-01',
+    'new_date' => '2024-02-01',
+];
+
+$validator = new Validator($data, [
+    'end_date' => ['required', 'date_format:Y-m-d', 'after:start_date'],
+    'new_date' => ['required', 'date_format:Y-m-d', 'after:2024-01-01'],
+]);
+
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
+}
+
+```
+
+##### Before Rule
+
+```php
+$data = [
+    'start_date' => '2024-01-01',
+    'end_date' => '2024-12-31',
+    'new_date' => '2024-12-30',
+];
+
+$validator = new Validator($data, [
+    'start_date' => ['required', 'date_format:Y-m-d'],
+    'end_date' => ['required', 'date_format:Y-m-d', 'before:start_date'],
+    'new_date' => ['required', 'date_format:Y-m-d', 'before:2024-12-31'],
+]);
+
+if (!$validator->validate()) {
+   print_r($validator->getErrors());
+}
+
+```
 
 ## Custom Error Messages
 #### You can define custom error messages for specific fields and rules:
