@@ -2,6 +2,8 @@
 
 namespace Mousav1\Validify;
 
+use Mousav1\Validify\Rules\Rule;
+
 class ConditionalRule
 {
     protected string $field;
@@ -30,14 +32,18 @@ class ConditionalRule
      */
     public function apply(array $data): ?array
     {
-        if (is_callable($this->condition) && call_user_func($this->condition, $data)) {
-            // Convert rule names to Rule objects
+        if (!is_callable($this->condition)) {
+            throw new \InvalidArgumentException("Condition for field '{$this->field}' is not a valid callable.");
+        }
+
+        if (call_user_func($this->condition, $data)) {
             return [$this->field => $this->resolveRules($this->rules)];
         }
+
         return null;
     }
 
-        /**
+    /**
      * Resolves rule names into Rule objects.
      *
      * @param array $rules Array of rule names or objects
@@ -45,12 +51,18 @@ class ConditionalRule
      */
     protected function resolveRules(array $rules): array
     {
-        return array_map(function($rule) {
+        return array_map(function ($rule) {
             if (is_string($rule)) {
-                // Convert rule names to Rule objects
-                return RuleProvider::resolve($rule, []);
+                try {
+                    return RuleProvider::resolve($rule, []);
+                } catch (\InvalidArgumentException $e) {
+                    throw new \InvalidArgumentException("Failed to resolve rule '{$rule}': {$e->getMessage()}");
+                }
+            } elseif ($rule instanceof Rule) {
+                return $rule;
+            } else {
+                throw new \InvalidArgumentException("Invalid rule provided: " . print_r($rule, true));
             }
-            return $rule;
         }, $rules);
     }
 }

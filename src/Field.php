@@ -25,14 +25,11 @@ class Field
 
     protected function createRule(string $method, array $parameters): Rule
     {
-        $ruleClass = RuleProvider::resolve($method, $parameters);
-
-        // Check if it's a custom rule
-        if (isset($customRules[$method])) {
-            return call_user_func_array($customRules[$method], $parameters);
+        try {
+            return RuleProvider::resolve($method, $parameters);
+        } catch (\InvalidArgumentException $e) {
+            throw new \InvalidArgumentException("Failed to create rule '{$method}' for field '{$this->field}'. Error: {$e->getMessage()}");
         }
-
-        return $ruleClass;
     }
 
     public function applyRules(): void

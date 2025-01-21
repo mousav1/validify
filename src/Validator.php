@@ -89,7 +89,7 @@ class Validator
         $this->initializeDefaultRules();
     }
 
-        /**
+    /**
      * Add a conditional rule.
      *
      * @param string $field The field to apply the rules to
@@ -237,7 +237,7 @@ class Validator
                 }
             }
         }
-        
+
         // Validate each field against its associated rules
         foreach ($this->validationRules as $field => $rules) {
             if (!is_array($rules)) {
@@ -351,10 +351,13 @@ class Validator
     protected function validateUsingRuleObject(string $field, mixed $value, Rule $rule): void
     {
         if (!$rule->passes($field, $value, $this->inputData)) {
-            $message = $this->customMessages[$field][$rule->name()] ?? $rule->message(self::alias($field));
+
+            $ruleName = $rule->name();
+            $messageKey = "{$field}.{$ruleName}";
+            $message = $this->customMessages[$field][$ruleName]
+                ?? $this->customMessages[$messageKey]
+                ?? $rule->message(self::alias($field));
             $this->validationErrorCollection->add($field, $message);
-            
-            $this->validationErrorCollection->add($field, $rule->message(self::alias($field)));
         }
     }
 
@@ -389,7 +392,7 @@ class Validator
      */
     public static function aliases(array $fields): array
     {
-        return array_map(function($field) {
+        return array_map(function ($field) {
             return self::alias($field);
         }, $fields);
     }
