@@ -124,7 +124,6 @@ class Validator
         RuleProvider::register('uppercase', UppercaseRule::class);
         RuleProvider::register('lowercase', LowercaseRule::class);
         RuleProvider::register('json', JsonRule::class);
-        RuleProvider::register('alpha', AlphaRule::class);
         RuleProvider::register('date_format', DateFormatRule::class);
         RuleProvider::register('after', AfterRule::class);
         RuleProvider::register('before', BeforeRule::class);

@@ -258,3 +258,13 @@ $validator->beforeValidate(function (&$data) {
 - **alpha**
 - **optional**
 - **required_with**
+- **array**
+- **integer**
+- **boolean**
+- **not_in**
+- **uppercase**
+- **lowercase**
+- **json**
+- **date_format**
+- **after**
+- **before**
