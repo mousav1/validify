@@ -86,7 +86,6 @@ $validator = new Validator($data);
 
 $validator->field('name')
     ->required()
-    ->startsWith('prefix')
     ->applyRules();
 
 if (!$validator->validate()) {
@@ -104,14 +103,17 @@ Extend Validify with your own custom rules:
 use Mousav1\Validify\Validator;
 
 Validator::extend('even', function () {
-    return new class {
-        public function passes($field, $value) {
+    return new class extends \Mousav1\Validify\Rules\Rule {
+        public function passes($field, $value, array $data): bool
+        {
             return $value % 2 === 0;
         }
-        public function name(): string {
+        public function name(): string
+        {
             return 'even';
         }
-        public function message($field) {
+        public function message($field): string
+        {
             return "{$field} must be an even number.";
         }
     };
