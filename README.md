@@ -1,30 +1,55 @@
 # Validify
 
+## Table of Contents
+
+- [Validify](#validify)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Quick Start](#quick-start)
+    - [Basic Validation](#basic-validation)
+    - [Fluent Validation](#fluent-validation)
+  - [Advanced Usage](#advanced-usage)
+    - [Custom Validation Rules](#custom-validation-rules)
+    - [Conditional Validation](#conditional-validation)
+    - [Date and Time Validation](#date-and-time-validation)
+      - [Date Format](#date-format)
+      - [After and Before Rules](#after-and-before-rules)
+    - [Custom Error Messages](#custom-error-messages)
+    - [Field Aliases](#field-aliases)
+    - [Pre-Validation Callbacks](#pre-validation-callbacks)
+  - [Available Rules](#available-rules)
+  - [Contributing](#contributing)
+    - [Steps to Contribute:](#steps-to-contribute)
+  - [License](#license)
+
 ## Introduction
 
-**Validify** is a simple, extensible, and flexible validation library for PHP. It allows developers to define validation rules for their data inputs and easily validate them. This package provides a set of built-in rules and also supports custom validation rules.
+**Validify** is a lightweight and extensible PHP validation library that simplifies validating user inputs. Whether you're building an API, a form, or any application requiring data validation, Validify provides a powerful and intuitive way to handle it.
 
 ## Features
 
-- **Simple API**: Easy-to-use API for defining validation rules.
-- **Customizable**: Allows the addition of custom validation rules.
-- **Wildcard Support**: Supports validation of nested data structures using dot notation.
-- **Pre-Validation Callbacks**: Supports execution of custom logic before validation.
-- **Conditional Validation**: Apply validation rules based on dynamic conditions.
-- **Date and Time Validation**: Validate date and time fields with built-in rules.
-- **Flexible Rule Definitions**: Support for both array and string formats for defining rules.
+- **Simple API**: Easy-to-use API for defining and executing validation rules.
+- **Extensible**: Define custom validation rules to fit specific use cases.
+- **Pre-Validation Callbacks**: Execute custom logic before validation.
+- **Conditional Validation**: Dynamically apply rules based on conditions.
+- **Nested Data Support**: Validate complex data structures using dot notation.
+- **Comprehensive Built-in Rules**: Includes a wide range of predefined validation rules.
 
 ## Installation
 
-You can install the package via Composer:
+To install the package, use Composer:
 
 ```bash
 composer require mousav1/validify
 ```
 
+## Quick Start
 
-## Usage
-#### Basic Validation
+### Basic Validation
+
+Here is an example of simple validation using Validify:
 
 ```php
 use Mousav1\Validify\Validator;
@@ -35,21 +60,20 @@ $data = [
     'age' => 25,
 ];
 
-$validator = new Validator($data,[
+$validator = new Validator($data, [
     'username' => ['required', 'alpha'],
     'email' => ['required', 'email'],
     'age' => ['required', 'numeric', 'min:18'],
 ]);
 
 if (!$validator->validate()) {
-   print_r($validator->getErrors());
+    print_r($validator->getErrors());
 }
-
 ```
 
+### Fluent Validation
 
-## Fluent Validation
-#### The Validify package allows you to define rules using a fluent interface, making your validation logic more readable:
+Define validation rules using a fluent interface for better readability:
 
 ```php
 use Mousav1\Validify\Validator;
@@ -66,14 +90,15 @@ $validator->field('name')
     ->applyRules();
 
 if (!$validator->validate()) {
-   print_r($validator->getErrors());
+    print_r($validator->getErrors());
 }
-
-
 ```
 
-## Custom Validation Rules
-#### You can extend the validator with custom rules:
+## Advanced Usage
+
+### Custom Validation Rules
+
+Extend Validify with your own custom rules:
 
 ```php
 use Mousav1\Validify\Validator;
@@ -83,8 +108,8 @@ Validator::extend('even', function () {
         public function passes($field, $value) {
             return $value % 2 === 0;
         }
-        public function name(): string{
-            return "even"
+        public function name(): string {
+            return 'even';
         }
         public function message($field) {
             return "{$field} must be an even number.";
@@ -94,22 +119,20 @@ Validator::extend('even', function () {
 
 $data = ['number' => 3];
 
-$validator = new Validator($data,[
+$validator = new Validator($data, [
     'number' => ['even']
 ]);
 
 if (!$validator->validate()) {
-   print_r($validator->getErrors());
+    print_r($validator->getErrors());
 }
-
 ```
 
+### Conditional Validation
 
-## Conditional Validation
-#### Conditional validation allows you to apply validation rules to certain fields only when specific conditions are met. This feature is useful when you want to validate fields based on the values of other fields or dynamic conditions.
+Apply rules dynamically based on conditions:
 
 ```php
-
 $data = [
     'age' => 20,
     'license' => ''
@@ -117,24 +140,22 @@ $data = [
 
 $validator = new Validator($data);
 
-// Adding a conditional rule
 $validator->addConditionalRule('license', ['required'], function ($data) {
     return $data['age'] > 18;
 });
 
 if (!$validator->validate()) {
-   print_r($validator->getErrors());
+    print_r($validator->getErrors());
 }
-
 ```
 
+### Date and Time Validation
 
-## Date and Time Validation
-#### The Validify package includes rules for validating date and time fields. You can use these rules to ensure that your date and time inputs meet specific criteria.
+Validate date and time fields using predefined rules:
 
-##### Date Format
+#### Date Format
+
 ```php
-
 $data = [
     'birthdate' => '2024-09-01',
 ];
@@ -144,56 +165,32 @@ $validator = new Validator($data, [
 ]);
 
 if (!$validator->validate()) {
-   print_r($validator->getErrors());
+    print_r($validator->getErrors());
 }
-
 ```
-##### After Rule
+
+#### After and Before Rules
 
 ```php
 $data = [
     'start_date' => '2024-01-01',
     'end_date' => '2024-02-01',
-    'new_date' => '2024-02-01',
 ];
 
 $validator = new Validator($data, [
     'end_date' => ['required', 'date_format:Y-m-d', 'after:start_date'],
-    'new_date' => ['required', 'date_format:Y-m-d', 'after:2024-01-01'],
 ]);
 
 if (!$validator->validate()) {
-   print_r($validator->getErrors());
+    print_r($validator->getErrors());
 }
-
 ```
 
-##### Before Rule
+### Custom Error Messages
+
+Define custom error messages for specific rules:
 
 ```php
-$data = [
-    'start_date' => '2024-01-01',
-    'end_date' => '2024-12-31',
-    'new_date' => '2024-12-30',
-];
-
-$validator = new Validator($data, [
-    'start_date' => ['required', 'date_format:Y-m-d'],
-    'end_date' => ['required', 'date_format:Y-m-d', 'before:start_date'],
-    'new_date' => ['required', 'date_format:Y-m-d', 'before:2024-12-31'],
-]);
-
-if (!$validator->validate()) {
-   print_r($validator->getErrors());
-}
-
-```
-
-## Custom Error Messages
-#### You can define custom error messages for specific fields and rules:
-
-```php
-
 use Mousav1\Validify\Validator;
 
 $data = [
@@ -201,7 +198,7 @@ $data = [
     'email' => 'invalid-email',
 ];
 
-$validator = new Validator($data,[
+$validator = new Validator($data, [
     'username' => ['required'],
     'email' => ['required', 'email'],
 ]);
@@ -212,35 +209,32 @@ $validator->setCustomMessages([
 ]);
 
 if (!$validator->validate()) {
-   print_r($validator->getErrors());
+    print_r($validator->getErrors());
 }
-
 ```
 
-## Field Aliases
-#### You can set aliases for field names to provide user-friendly error messages:
+### Field Aliases
+
+Use aliases for more readable error messages:
 
 ```php
-
 $validator->setAliases([
     'email' => 'Email Address'
 ]);
 
 $validator->validate();
 
-print_r($validator->getErrors()); // Errors will display "Email Address" instead of "email".
-
+print_r($validator->getErrors());
 ```
 
-## Pre-Validation Callbacks
-#### You can define callbacks that will run before the validation process starts:
+### Pre-Validation Callbacks
+
+Execute logic before validation starts:
 
 ```php
-
 $validator->beforeValidate(function (&$data) {
     $data['username'] = strtolower($data['username']);
 });
-
 ```
 
 ## Available Rules
@@ -268,3 +262,18 @@ $validator->beforeValidate(function (&$data) {
 - **date_format**
 - **after**
 - **before**
+
+## Contributing
+
+Contributions are welcome! Feel free to submit a pull request or open an issue.
+
+### Steps to Contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature/bugfix.
+3. Write clear and descriptive commit messages.
+4. Submit a pull request with detailed explanation.
+
+## License
+
+This package is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
